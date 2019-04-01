@@ -1,34 +1,49 @@
 package epamtask4;
-
 import java.util.*;
- class Arrayqueue
+ class ArrayQueue
 {
-    int rear=-1,front=-1;
-    int queue[]=new int[1000000];
-    void enqueue(int element)/* enqueue function is used to push the elements into queue */
+    int rear=-1,front=-1,top1=-1,top2=-1;/* initializing the tops of stack1 and stack2 to -1*/
+    int stack1[]=new int[1000000];
+    int stack2[]=new int[1000000];
+    void enqueue1(int element)/* enqueue is function which is used to push the elements into stack1 */
     {
-        if(front==-1)
-        {
-        front=0;
-        rear=0;
-        }
-        queue[rear]=element;/* we have to push into queue by using rear because insertion is possible from rear side only*/
-        rear++;  /* we have increment rear position as we are pushing the elements into queue */
+        top1++;
+       stack1[top1]=element;
+       if(top1==0)/* if stack1 contains only one element we have to push that particular element into stack2 */
+       stack2[0]=element;
     }
     void display()
     {
-       
-        System.out.println(queue[front]);/* display function is used to display the first element in the queue */ 
-    }
-    void dequeue()/* dequeue function is used to remove one element from queue */
-    {
-        if(front!=rear)
+        if(top1!=-1)/* display function is used to print the first element in the queue */
         {
-        for(int i=0;i<rear-1;i++)
-        queue[i]=queue[i+1];/* we have to move element towards left so that first element will be deleted */
+        System.out.println(stack2[0]);
         }
-        rear--;/* whenever we are call the dequeue() we need to decrement the rear position by 1 as we are removing one element from queue */
+        
     }
+    void dequeue()/* dequeue() which is used to remove first inserted element from stack */
+    {
+        
+       if(top1==0)/* if stack1 top1 contains single element we need to decrement the top1 variable */
+       {
+          top1--;
+       }
+       else
+       {
+          int c=0;
+       for(int i=0;i<=top1-1;i++)/* if top1>0 we need to delete element from stack1 */
+       {
+           stack1[i]=stack1[i+1];/* we need to move one element to left side in order to remove first element from stack */
+           c++;
+       }
+       for(int i=0;i<c;i++)/* again we need to copy the stack1 elements from stack2 */
+       {
+           stack2[i]=stack1[i];
+          
+       }
+
+       top1--;/* we need to decrement top1 as we are dequeue the elements */
+       }
+     }
 }
 
 public class QueueUsingStacks {
@@ -36,7 +51,7 @@ public class QueueUsingStacks {
     public static void main(String[] args) {
         /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
         int queries,type,value;
-       Arrayqueue obj=new Arrayqueue();
+       ArrayQueue obj=new ArrayQueue();
        Scanner sc=new Scanner(System.in);
        queries=sc.nextInt();
         for(int i=0;i<queries;i++)
@@ -45,7 +60,7 @@ public class QueueUsingStacks {
             if(type==1)
             {
                 value=sc.nextInt();
-                obj.enqueue(value);
+                obj.enqueue1(value);
             }
             else if(type==2)
             {
@@ -56,10 +71,8 @@ public class QueueUsingStacks {
                 obj.display();
             }
         }
+        
         sc.close();
-        
-        
     }
 }
-
 
